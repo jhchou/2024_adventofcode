@@ -1,10 +1,11 @@
 # Day 1, tools used
-#
+
 # - readlines()
 # - DataFrames and CSV
 # - sort!() -- mutating sort
 # - .|> -- element-wise piping
 # - (count(==(val), col2)) -- count number element in array
+# - parse(Int, x) -- parse string as a number; can set base (e.g., 10) for integers
 # - m = match(r"(\d+)\s+(\d+)", line); m2 = parse.(Int, m.captures) -- extract RegExp capture fields
 
 lines = readlines("data/day1.txt")
@@ -33,7 +34,7 @@ part2 # Part 2: 23117829
 
 # Part 1 with base Julia
 #
-# col1 = Int[]
+# col1 = Int[] # == Array{Int, 1}(), for a 1-dimensional Int array?
 # col2 = Int[]
 # for line in lines
 #     m = match(r"(\d+)\s+(\d+)", line)
