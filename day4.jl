@@ -32,3 +32,16 @@ end
 
 part1 # Part 1: 2562
 
+
+part2 = 0
+for r in 2:r_size - 1
+    for c in 2:c_size - 1
+        word1 = reduce(*, [input_m[r + Δr, c + Δc] for (Δr, Δc) in [(-1, -1), (0, 0), (1, 1)]])
+        word2 = reduce(*, [input_m[r + Δr, c + Δc] for (Δr, Δc) in [(-1, 1), (0, 0), (1, -1)]])
+        if (word1 == "MAS" || word1 == "SAM") && (word2 == "MAS" || word2 == "SAM")
+            part2 += 1
+        end
+    end
+end
+
+part2 # Part 2: 1902
