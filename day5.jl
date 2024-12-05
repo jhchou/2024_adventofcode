@@ -31,9 +31,6 @@ function custom_lt(x, y)
     return false
 end
 
-part1 = 0
-part2 = 0
-
 # Generate rules
 rules = Set() # will contain all the collected rules as the number paris in [lower, higher] vector
 for line in lines
@@ -45,6 +42,8 @@ for line in lines
 end
 
 # Test each update
+part1 = 0
+part2 = 0
 for line in lines
     if !isnothing(match(r",", line)) # update line
         update = parse.(Int, split(line, ","))
