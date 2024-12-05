@@ -20,24 +20,43 @@ function in_order(update, rules)
     return update[length(update) ÷ 2 + 1] # passed all rule checks, return middle value
 end
 
-# Part 1
+function custom_lt(x, y)
+    # Define a custom "less than" function, then use sort(arr, lt = custom_lt)
+    # - accessing `rules` as a global variable, which is a pretty bad idea
+    for (lower, higher) in rules # test each rule
+        if (x == lower) && (y == higher)
+            return true
+        end
+    end
+    return false
+end
 
 part1 = 0
+part2 = 0
 
+# Generate rules
 rules = Set() # will contain all the collected rules as the number paris in [lower, higher] vector
 for line in lines
-    # Assumption: all rules precede any update lines
     m = match(r"(\d+)\|(\d+)", line) # rule line
     if !isnothing(m)
         m2 = parse.(Int, m.captures)
         push!(rules, m2)
-    elseif !isnothing(match(r"\d", line)) # update line
+    end
+end
+
+# Test each update
+for line in lines
+    if !isnothing(match(r",", line)) # update line
         update = parse.(Int, split(line, ","))
         result = in_order(update, rules)
         if !isnothing(result)
             part1 += result
+        else
+            # making the assumption that the sort won't fail
+            part2 += in_order(sort(update, lt = custom_lt), rules)
         end
     end
 end
 
 part1 # Part 1: 6949
+part2 # Part 2: 4145
