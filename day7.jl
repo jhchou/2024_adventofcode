@@ -1,43 +1,40 @@
-using IterTools
+using IterTools # for product()
 
-function concat(x)
-    return parse(Int, string(x[1]) * string(x[2]))
-end
-
-function testline(target, elements, ops)
-    for ops in Iterators.product(fill( ops, length(elements) - 1)...)
+function test_line(target, elements, ops)
+    for ops in product(fill( ops, length(elements) - 1)...)
         # generate iterator across all possible operations between elements
         result = elements[1]
         for i in 1:(length(elements) - 1)
-            result = ops[i]([result, elements[i+1]])
+            if ops[i] == '+'
+                result +=  elements[i+1]
+            elseif ops[i] == '*'
+                result *=  elements[i+1]
+            elseif ops[i] == '|'
+                result = parse(Int, string(result) * string(elements[i+1]))
+            else
+                println("ERROR")
+            end
         end
-        if result == target
-            return(target)
-        end
+        if result == target return(target) end
     end
     return 0
 end
 
-function testinput(file)
-    part1 = 0
-    part2 = 0
-    lines = readlines(file)
-    for line in lines
+function test_file(file)
+    part1 = part2 = 0
+    for line in readlines(file)
         m = match(r"(.*): (.*)", line)
-        if isnothing(m) continue end
         target = parse(Int, m.captures[1])
         elements = parse.(Int, split(m.captures[2], " "))
-        part1 += testline(target, elements, [sum, prod])
-        part2 += testline(target, elements, [sum, prod, concat])
+        part1 += test_line(target, elements, ['+', '*'])
+        part2 += test_line(target, elements, ['+', '*', '|'])
     end
     return (part1, part2)
 end
 
-# file = "data/day7test.txt"
-file = "data/day7.txt"
+file = "data/day7test.txt"
+# file = "data/day7.txt"
 
-(part1, part2) = testinput(file)
-
+(part1, part2) = test_file(file)
 part1 # Part 1: 14711933466277
-part2 # Part 2: 
-
+part2 # Part 2: 286580387663654
