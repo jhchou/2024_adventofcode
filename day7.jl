@@ -1,7 +1,9 @@
+# runs a bit slow for part 2 -- ~30+ seconds --> why?
+
 using IterTools # for product()
 
-function test_line(target, elements, ops)
-    for ops in product(fill( ops, length(elements) - 1)...)
+function test_line(target, elements, operations)
+    for ops in product(fill( operations, length(elements) - 1)...)
         # generate iterator across all possible operations between elements
         result = elements[1]
         for i in 1:(length(elements) - 1)
@@ -15,7 +17,9 @@ function test_line(target, elements, ops)
                 println("ERROR")
             end
         end
-        if result == target return(target) end
+        if result == target
+            return target
+        end
     end
     return 0
 end
@@ -32,8 +36,8 @@ function test_file(file)
     return (part1, part2)
 end
 
-file = "data/day7test.txt"
-# file = "data/day7.txt"
+# file = "data/day7test.txt"
+file = "data/day7.txt"
 
 (part1, part2) = test_file(file)
 part1 # Part 1: 14711933466277
