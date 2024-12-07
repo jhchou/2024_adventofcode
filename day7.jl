@@ -1,5 +1,3 @@
-# runs a bit slow for part 2 -- ~30+ seconds --> why?
-
 using IterTools # for product()
 
 function test_line(target, elements, operations)
