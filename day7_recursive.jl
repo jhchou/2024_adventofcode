@@ -1,4 +1,4 @@
-function test_recurs(target, elements, running, i, operator; is_part2 = false)
+function test_recursive(target, elements, running, i, operator; is_part2 = false)
     if operator == '+'
         running += elements[i+1]
     elseif operator == '*'
@@ -9,15 +9,15 @@ function test_recurs(target, elements, running, i, operator; is_part2 = false)
 
     if running > target
         return false
-    elseif i == length(elements) - 1
+    elseif i+1 == length(elements) # have just acted on the last element i+1
         return running == target
     elseif !is_part2
-        return  (test_recurs(target, elements, running, i+1, '+'; is_part2)) ||
-                (test_recurs(target, elements, running, i+1, '*'; is_part2))
+        return  (test_recursive(target, elements, running, i+1, '+'; is_part2)) ||
+                (test_recursive(target, elements, running, i+1, '*'; is_part2))
     else # for part 2
-        return  (test_recurs(target, elements, running, i+1, '+'; is_part2)) ||
-                (test_recurs(target, elements, running, i+1, '*'; is_part2)) ||
-                (test_recurs(target, elements, running, i+1, '|'; is_part2))
+        return  (test_recursive(target, elements, running, i+1, '+'; is_part2)) ||
+                (test_recursive(target, elements, running, i+1, '*'; is_part2)) ||
+                (test_recursive(target, elements, running, i+1, '|'; is_part2))
     end
 end
 
@@ -28,9 +28,9 @@ function test_file(file)
         m = match(r"(.*): (.*)", line)
         target = parse(Int, m.captures[1])
         elements = parse.(Int, split(m.captures[2], " "))
-        # Initial recusion call: will '+' the first element to a running total of 0 to start
-        part1 += test_recurs(target, elements, 0, 0, '+'; is_part2 = false) ? target : 0
-        part2 += test_recurs(target, elements, 0, 0, '+'; is_part2 = true) ? target : 0
+        # Initial recursion call will '+' a running total of 0 to the first element to start the process
+        part1 += test_recursive(target, elements, 0, 0, '+'; is_part2 = false) ? target : 0
+        part2 += test_recursive(target, elements, 0, 0, '+'; is_part2 = true) ? target : 0
 
     end
     return (part1, part2)
