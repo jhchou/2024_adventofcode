@@ -19,6 +19,8 @@ function test_line(target, elements, operations)
         end
         if result == target
             return target
+        elseif result > target
+            return 0
         end
     end
     return 0
