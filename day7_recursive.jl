@@ -37,5 +37,6 @@ function test_file(file)
 end
 
 (part1, part2) = test_file("data/day7.txt")
+
 part1 # Part 1: 14711933466277
 part2 # Part 2: 286580387663654
